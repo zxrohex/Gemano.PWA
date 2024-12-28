@@ -31,6 +31,12 @@ jobs:
       run: dotnet test --no-build --verbosity normal
     - name: Publish
       run: dotnet publish ./Gemano.PWA/Gemano.PWA.csproj -c Debug -o debug --nologo
+    # changes the base-tag in index.html from '/' to 'Gemano.PWA' to match GitHub Pages repository subdirectory
+    - name: Change base-tag in index.html from / to Gemano.PWA
+      run: sed -i 's/<base href="\/" \/>/<base href="\/Gemano.PWA\/" \/>/g' debug/wwwroot/index.html
+    # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
+    - name: Add .nojekyll file
+      run: touch debug/wwwroot/.nojekyll
     - name: Commit wwwroot to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4.7.2
       with:
