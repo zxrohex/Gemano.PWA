@@ -1,13 +1,13 @@
 self.assetsManifest = {
-  "version": "VrBDuKuf",
+  "version": "4ag66Zg+",
   "assets": [
     {
       "hash": "sha256-dqNw5C9VB0R8iHXRAW+amj3dYtJmrQf/5anYkYQDEgo=",
       "url": "Gemano.PWA.styles.css"
     },
     {
-      "hash": "sha256-LMDZCQ5/o8sh+5sB7nKjBSrhwANpDHcsnYRqMn4Xpng=",
-      "url": "_framework/Gemano.PWA.0bunr3in6a.wasm"
+      "hash": "sha256-w0MqRzG714cVAg39AjmFctxeVZkr0KFrwzQiy+E92Dw=",
+      "url": "_framework/Gemano.PWA.v9u2ib6m2g.wasm"
     },
     {
       "hash": "sha256-sjcW+X3s08JL75Y4XuFonqGRYFzCTYxaJ1y8rF4eAb0=",
@@ -178,7 +178,7 @@ self.assetsManifest = {
       "url": "_framework/System.k00sf5pqyy.wasm"
     },
     {
-      "hash": "sha256-qXNmKijBFzNX+sXWfBNv40a/REgPsJzHZXZQlreB1WU=",
+      "hash": "sha256-Q3OpE6ewVd6JH7QYvzCMdVfzlX8xPMzi0+hKC/EAL84=",
       "url": "_framework/blazor.boot.json"
     },
     {
