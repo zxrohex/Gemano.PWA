@@ -1,0 +1,18 @@
+﻿@page "/"
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Home</PageTitle>
+
+<CascadingValue Value="GemanoInterfaceManager.ChatInterface" Name="GemanoChatInterface">
+    <ChatConversation>
+
+    </ChatConversation>
+</CascadingValue>
+
+@code {
+    [CascadingParameter(Name = "GemanoInterfaceManager")]
+    public GemanoInterfaceManager GemanoInterfaceManager { get; set; }
+
+
+
+}

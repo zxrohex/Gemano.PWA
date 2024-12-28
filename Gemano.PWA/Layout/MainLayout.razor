@@ -1,0 +1,69 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime JSRuntime
+@inject GemanoInterfaceManager GemanoInterfaceManager
+
+<div class="app-container">
+    @if (init)
+    {
+        <div class="app-header">
+            <div class="header-container left">
+                <h1>Gemano</h1>
+            </div>
+
+            <div class="header-container center">
+
+            </div>
+
+            <div class="header-container right">
+                @if (init)
+                {
+                    <button @onclick="test">
+                        New Chat
+                    </button>
+                }
+            </div>
+        </div>
+
+        <div class="app-main">
+            <CascadingValue Value="GemanoInterfaceManager" Name="GemanoInterfaceManager">
+                @Body
+            </CascadingValue>
+        </div>      
+    }
+    else
+    {
+        <div class="app-main loading">
+            @switch (errorStatus)
+            {
+                case 0:
+                default:
+                    <h1>Loading ...</h1>
+                    break;
+
+                case 1:
+                    <h1>Gemini API is not supported, available or enabled in your browser.</h1>
+                    break;
+
+                case 2:
+                    <h1>Gemini API is not ready yet. Try reloading, if this still occurs trigger <br> an download in the console.</h1>
+                    break;
+            }
+        </div>
+    }
+</div>
+
+@code {
+    bool init = false;
+
+    int errorStatus = 0;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        init = await GemanoInterfaceManager.LoadAsync();
+    }
+
+    async Task test()
+    {
+        await GemanoInterfaceManager.ChatInterface.CreateSession();
+    }
+}

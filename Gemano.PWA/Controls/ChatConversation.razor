@@ -1,0 +1,66 @@
+﻿@inject IJSRuntime JSRuntime
+
+@if (IsReady)
+{
+    <div class="chat-conversation">
+        <div class="session-info">
+            <div class="info-container left">
+                <h4 class="chat-title">Gemini Nano Chat</h4>
+            </div>
+
+            <div class="info-container center">
+                @if (ChatSession != null)
+                {
+                    <p class="stat-text">Tokens left: @ChatSession.TokensLeft</p>
+
+                    <p class="stat-text">Tokens so far: @ChatSession.TokensSoFar</p>
+
+                    <p class="stat-text">Max Tokens: @ChatSession.MaxTokens</p>
+                }
+            </div>
+
+            <div class="info-container right">
+                <button @onclick="CreateSession">
+                    Create Session
+                </button>
+            </div>
+        </div>
+
+        <div class="conversation-history">
+
+            @foreach (var msg in ChatSession.Messages)
+            {
+                <div class="conversation-message-container">
+                    <div class="conversation-message">
+                        <div class="message-header">
+                            <h6>@msg.Role</h6>
+                        </div>
+                        
+                        <div class="message-content">
+                            <p>@msg.Content</p>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+
+        <div class="conversation-controls">
+            <InputText class="text-input prompt-input" @bind-Value="inputMsg">
+
+            </InputText>
+
+            <button @onclick="PromptAsync">
+                Send
+            </button>
+        </div>
+    </div>
+} else {
+    <div>
+        <h1>No session created</h1>
+
+        <button @onclick="CreateSession">
+            Create Session
+        </button>
+    </div>
+}
