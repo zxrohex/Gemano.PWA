@@ -29,7 +29,7 @@ jobs:
     - name: Publish
       run: dotnet publish ./Gemano.PWA/Gemano.PWA.csproj -c Debug -o debug --nologo
     - name: Commit wwwroot to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@4
+      uses: JamesIves/github-pages-deploy-action@v4.7.2
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: gh-pages
