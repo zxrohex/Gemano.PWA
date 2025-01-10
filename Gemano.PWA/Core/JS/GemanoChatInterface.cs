@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
+using static Gemano.PWA.Core.JS.GemanoChatSession;
+
 namespace Gemano.PWA.Core.JS
 {
     public class GemanoChatInterface
@@ -9,11 +11,28 @@ namespace Gemano.PWA.Core.JS
 
         public GemanoChatSession CurrentSession { get; set; }
 
+        public event SessionChanged? OnSessionChanged;
+
+        public delegate void SessionChanged();
+
         public GemanoChatInterface(IJSObjectReference jsModule)
         {
             JSModule = jsModule;
         }
 
+        public async Task<bool> KillSession()
+        {
+            if (CurrentSession != null)
+            {
+                await CurrentSession.Destroy();
+                CurrentSession = null;
+                OnSessionChanged?.Invoke();
+                return true;
+            }
+
+            return false;
+        }
+        
         public async Task<int> GetStatus()
         {
             if (JSModule != null)
@@ -53,14 +72,14 @@ namespace Gemano.PWA.Core.JS
 
                 if (CurrentSession != null)
                 {
-                    await CurrentSession.Destroy();
-
-                    CurrentSession = null;
+                    await KillSession();
                 }
 
                 var sessionObject = await JSModule.InvokeAsync<IJSObjectReference>("GemanoSession.createSession");
 
                 CurrentSession = await GemanoChatSession.Create(sessionObject);
+
+                OnSessionChanged?.Invoke();
 
                 return 0;
             }
@@ -68,13 +87,48 @@ namespace Gemano.PWA.Core.JS
             return -1;
         }
 
+        public async Task<List<GemanoChatConversation>> GetAllChats()
+        {
+            var chats = await JSModule.InvokeAsync<List<GemanoChatConversation>>("GemanoChatConversationManager.getAll");
+
+     
+
+            return chats;
+        }
+
+        public async Task<GemanoChatConversation> GetChat(string id)
+        {
+            var chat = await JSModule.InvokeAsync<GemanoChatConversation>("GemanoChatConversationManager.getChat", id);
+
+            Console.WriteLine(chat.Id);
+
+            return chat;
+        }
+
+
     }
 
-    public class GemanoChatSession : IDisposable
+    public class GemanoChatConversation
+    {
+        public string Name { get; set; }
+
+        public string Id { get; set; }
+
+        public GemanoMessage[] Messages { get; set; }
+
+        
+
+    }
+
+    public class GemanoChatSession
     {
         public IJSObjectReference JSObject { get; private set; }
 
         public List<GemanoMessage> Messages { get; private set; } = new List<GemanoMessage>();
+
+        public string Id { get; private set; }
+
+        public string Name { get; private set; }
 
         public int TokensLeft { get; private set; }
 
@@ -113,6 +167,8 @@ namespace Gemano.PWA.Core.JS
 
         public async Task RefreshStats()
         {
+            Name = await GetName();
+
             TokensLeft = await GetTokensLeft();
 
             TokensSoFar = await GetTokensSoFar();
@@ -135,6 +191,21 @@ namespace Gemano.PWA.Core.JS
             return await JSObject.InvokeAsync<int>("maxTokens");
         }
 
+        private async Task<string> GetName()
+        {
+            return await JSObject.InvokeAsync<string>("getName");
+        }
+
+        public async Task<bool> SetName(string name)
+        {
+            await JSObject.InvokeVoidAsync("setName", name);
+
+            await RefreshStats();
+
+            return true;
+        }
+
+
         public async Task Destroy()
         {
             await JSObject.InvokeVoidAsync("destroy");
@@ -154,28 +225,35 @@ namespace Gemano.PWA.Core.JS
             GC.SuppressFinalize(this);
         }
 
-        public class GemanoMessage
+
+
+    }
+
+    public class GemanoMessage
+    {
+        public string Role { get; set; }
+
+        public string Content { get; set; }
+
+        public GemanoMessage(string role, string content)
         {
-            public string Role { get; private set; }
-
-            public string Content { get; private set; }
-
-            public GemanoMessage(string role, string content)
-            {
-                Role = role;
-                Content = content;
-            }
-
-            public static GemanoMessage FromUser(string content)
-            {
-                return new GemanoMessage("user", content);
-            }
-
-            public static GemanoMessage FromLLM(string content)
-            {
-                return new GemanoMessage("llm", content);
-            }
+            Role = role;
+            Content = content;
         }
 
+        public GemanoMessage()
+        {
+
+        }
+
+        public static GemanoMessage FromUser(string content)
+        {
+            return new GemanoMessage("user", content);
+        }
+
+        public static GemanoMessage FromLLM(string content)
+        {
+            return new GemanoMessage("llm", content);
+        }
     }
 }

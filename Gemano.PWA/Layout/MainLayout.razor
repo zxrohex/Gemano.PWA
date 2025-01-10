@@ -6,6 +6,10 @@
     <div class="app-container">
         @if (init)
         {
+            <Sidebar @ref="sidebar">
+
+            </Sidebar>
+
             <div class="app-header">
                 <div class="header-container left">
                     <h1>Gemano</h1>
@@ -15,12 +19,11 @@
                 </div>
 
                 <div class="header-container right">
-                    @if (status == 0)
-                    {
-                        <button @onclick="test">
-                            New Chat
-                        </button>
-                    }
+
+                    <button @onclick="test">
+                        Menu
+                    </button>
+
                 </div>
             </div>
 
@@ -61,9 +64,21 @@
         else
         {
             <div class="app-main loading">
-                <h4>
-                    Initializing ...
-                </h4>
+                <div class="loading-bar">
+                    <div class="bar">
+                        <div class="bar-border top">
+                        </div>
+
+                        <div class="bar-border bottom">
+                        </div>
+
+                        <div class="bar-border left">
+                        </div>
+
+                        <div class="bar-border right">
+                        </div>
+                    </div>
+                </div>
             </div>
         }
     </div>
@@ -73,6 +88,8 @@
     bool init = false;
 
     int status = 10;
+
+    Sidebar sidebar;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -87,13 +104,13 @@
     {
         if (firstRender)
         {
-           
+
 
         }
     }
 
     async Task test()
     {
-        status = await GemanoInterfaceManager.ChatInterface.CreateSession();
+        sidebar.Toggle();
     }
 }

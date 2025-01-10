@@ -1,0 +1,43 @@
+﻿@if (IsVisible)
+{
+    <div class="dialog-container">
+
+        <div class="sidebar-container">
+            <button class="close-btn" @onclick="Toggle">
+                X
+            </button>
+
+            <div class="sidebar-header">
+                <h4 class="sidebar-title">Gemini Nano Chat</h4>
+            </div>
+
+            <div class="sidebar-content">
+                <div class="sidebar-item" @onclick="NewChat">
+                    <div class="sidebar-item-icon">
+                    </div>
+
+                    <div class="sidebar-item-text">
+                        <h3>New Chat</h3>
+                    </div>
+
+                  
+                </div>
+
+                @foreach (var i in Chats)
+                {
+                    <div class="sidebar-item" @onclick="async () => await LoadChat(i.Id)">
+                        <div class="sidebar-item-icon">
+                        </div>
+
+                        <div class="sidebar-item-text">
+                            <h3>@i.Name</h3>
+                        </div>
+
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+}

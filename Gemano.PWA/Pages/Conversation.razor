@@ -1,0 +1,23 @@
+﻿@page "/Chat/View/{id}"
+
+
+<PageTitle>Page Title</PageTitle>
+
+
+<CascadingValue Value="GemanoInterfaceManager.ChatInterface" Name="GemanoChatInterface">
+
+
+    @if (Id != null)
+    {
+        <ChatConversationView Id="@Id">
+
+        </ChatConversationView>
+    }
+</CascadingValue>
+
+@code {
+    [CascadingParameter(Name = "GemanoInterfaceManager")]
+    public GemanoInterfaceManager GemanoInterfaceManager { get; set; }
+
+
+}

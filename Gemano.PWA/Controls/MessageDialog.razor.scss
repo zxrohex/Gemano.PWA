@@ -1,17 +1,21 @@
 div.content-box {
     position: relative;
     min-width: 350px;
-    min-height: 225px;
+    min-height: auto;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: space-around;
 
-    * {
+    h1.header-text {
+        margin-bottom: 10px;
+    }
+
+    p.body-text {
         margin-bottom: 25px;
     }
 
-    *:last-of-type {
-        margin-bottom: 0px;
+    button.confirm-btn {
+        align-self: flex-end;
     }
 }

@@ -1,0 +1,40 @@
+﻿@if (IsReady)
+{
+    <div class="chat-container">
+        <div class="chat-conversation">
+            <div class="session-info">
+                <div class="info-container left">
+                    <h4 class="chat-title">@Conversation.Name</h4>
+                </div>
+
+                <div class="info-container center">
+                </div>
+
+                <div class="info-container right">
+                </div>
+            </div>
+
+            <div class="conversation-history">
+                @if (Messages != null)
+                {
+                    @foreach (var msg in Messages)
+                    {
+                        <div class="conversation-message-container">
+                            <div class="conversation-message">
+                                <div class="message-header">
+                                    <h6>@msg.Role</h6>
+                                </div>
+
+                                <div class="message-content">
+                                    <p>@msg.Content</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+
+
+            </div>
+        </div>
+    </div>
+}

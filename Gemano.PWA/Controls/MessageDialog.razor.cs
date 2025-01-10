@@ -14,19 +14,26 @@ namespace Gemano.PWA.Controls
         [Parameter]
         public RenderFragment BodyText { get; set; }
 
-       
 
-        public bool IsVisible { get; set; }
+        [Parameter]
+        public bool Visible { get; set; }
+
+        private bool isVisible;
+
+        protected override async Task OnParametersSetAsync()
+        {
+            isVisible = Visible;
+        }
 
         public void Show()
         {
-            IsVisible = true;
+            isVisible = true;
             StateHasChanged();
         }
 
         public void Hide()
         {
-            IsVisible = false;
+            isVisible = false;
             StateHasChanged();
         }
     }

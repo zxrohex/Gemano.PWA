@@ -2,97 +2,88 @@
 
 @if (IsReady)
 {
-    <div class="chat-conversation">
-        <div class="session-info">
-            <div class="info-container left">
-                <h4 class="chat-title">Gemini Nano Chat</h4>
-            </div>
+    <div class="chat-container">
+        <div class="chat-conversation">
+            <div class="session-info">
+                <div class="info-container left">
+                    <InputText class="text-input sleek" @bind-Value="inputName" @bind-Value:after="AfterNameChanged">
 
-            <div class="info-container center">
-                @if (ChatSession != null)
-                {
-                    <p class="stat-text">Tokens left: @ChatSession.TokensLeft</p>
-
-                    <p class="stat-text">Tokens so far: @ChatSession.TokensSoFar</p>
-
-                    <p class="stat-text">Max Tokens: @ChatSession.MaxTokens</p>
-                }
-            </div>
-
-            <div class="info-container right">
-            </div>
-        </div>
-
-        <div class="conversation-history">
-
-            @foreach (var msg in ChatSession.Messages)
-            {
-                <div class="conversation-message-container">
-                    <div class="conversation-message">
-                        <div class="message-header">
-                            <h6>@msg.Role</h6>
-                        </div>
-
-                        <div class="message-content">
-                            <p>@msg.Content</p>
-                        </div>
-                    </div>
+                    </InputText>
                 </div>
-            }
 
-        </div>
+                <div class="info-container center">
+                    @if (ChatSession != null)
+                    {
+                        <p class="stat-text">Tokens left: @ChatSession.TokensLeft</p>
 
-        <div class="conversation-controls">
-            <InputText class="text-input prompt-input" @bind-Value="inputMsg">
+                        <p class="stat-text">Tokens so far: @ChatSession.TokensSoFar</p>
 
-            </InputText>
+                        <p class="stat-text">Max Tokens: @ChatSession.MaxTokens</p>
+                    }
+                </div>
 
-            <button @onclick="PromptAsync">
-                Send
-            </button>
+                <div class="info-container right">
+                </div>
+            </div>
+
+            <div class="conversation-history">
+                @if (Messages != null)
+                {
+                    @foreach (var msg in Messages)
+                    {
+                        <div class="conversation-message-container">
+                            <div class="conversation-message">
+                                <div class="message-header">
+                                    <h6>@msg.Role</h6>
+                                </div>
+
+                                <div class="message-content">
+                                    <p>@msg.Content</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+
+
+            </div>
+
+            <div class="conversation-controls">
+                <InputText class="text-input prompt-input" @bind-Value="inputMsg">
+
+                </InputText>
+
+                <button @onclick="PromptAsync">
+                    Send
+                </button>
+            </div>
+
         </div>
     </div>
 }
 else
 {
-    <div class="chat-conversation no-chat">
-        <h1 class="notice-header">No session created</h1>
+    <div class="chat-container no-chat">
+        <div class="loading-bar">
+            <div class="bar">
+                <div class="bar-border top">
 
-        <p class="notice-text">
-            Click "Create Session" or "New Chat" to create a new Gemini Nano chat session.
-        </p>
+                </div>
 
-        <button @onclick="CreateSession">
-            Create Session
-        </button>
+                <div class="bar-border bottom">
+                </div>
 
-        <!--<button onclick="testShow">
-            Test
-        </button>-->
+                <div class="bar-border left">
+
+                </div>
+
+                <div class="bar-border right">
+                </div>
+            </div>
+        </div>
     </div>
 }
 
-<!--
-<MessageDialog ref="testDialog">
-    <HeaderText>Test</HeaderText>
+@code {
 
-    <BodyText>
-
-
-        /*for (int i = 0;  i < 10; i++)
-        {
-            <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem IpsumLorem Ipsum Lorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem Ipsum</p>
-        }*/
-    </BodyText>
-</MessageDialog>
--->
-
-
-<!-- code {
-    private MessageDialog testDialog;
-
-    private void testShow()
-    {
-        testDialog.Show();
-    }
-}-->
+}

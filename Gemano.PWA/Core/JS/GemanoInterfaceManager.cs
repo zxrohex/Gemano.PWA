@@ -1,4 +1,5 @@
-﻿using Microsoft.JSInterop;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace Gemano.PWA.Core.JS
 {
@@ -10,9 +11,13 @@ namespace Gemano.PWA.Core.JS
 
         public GemanoChatInterface ChatInterface { get; set; }
 
-        public GemanoInterfaceManager(IJSRuntime jsRuntime)
+        public NavigationManager NavigationManager { get; set; }
+
+        public GemanoInterfaceManager(IJSRuntime jsRuntime, NavigationManager navigationManager)
         {
             JSRuntime = jsRuntime;
+
+            NavigationManager = navigationManager;
         }
 
         public async Task<bool> LoadAsync()

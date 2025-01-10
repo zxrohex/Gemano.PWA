@@ -1,7 +1,7 @@
 div.content-box {
   position: relative;
   min-width: 350px;
-  min-height: 225px;
+  min-height: auto;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -12,13 +12,16 @@ div.content-box {
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: flex-start;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
 }
-div.content-box * {
+div.content-box h1.header-text {
+  margin-bottom: 10px;
+}
+div.content-box p.body-text {
   margin-bottom: 25px;
 }
-div.content-box *:last-of-type {
-  margin-bottom: 0px;
+div.content-box button.confirm-btn {
+  -ms-flex-item-align: end;
+      align-self: flex-end;
 }

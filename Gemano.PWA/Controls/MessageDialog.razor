@@ -1,10 +1,10 @@
-﻿<BaseDialog @bind-IsVisible="IsVisible">
+﻿<BaseDialog @bind-IsVisible="isVisible">
     <div class="content-box">
-        <h1>@HeaderText</h1>
+        <h1 class="header-text">@HeaderText</h1>
 
-        <p>@BodyText</p>
+        <p class="body-text">@BodyText</p>
 
-        <button @onclick="Hide">
+        <button class="confirm-btn" @onclick="Hide">
             OK
         </button>
     </div>

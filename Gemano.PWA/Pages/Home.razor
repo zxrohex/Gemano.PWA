@@ -1,18 +1,17 @@
 ﻿@page "/"
 @inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
 
 <PageTitle>Home</PageTitle>
 
-<CascadingValue Value="GemanoInterfaceManager.ChatInterface" Name="GemanoChatInterface">
-    <ChatConversation>
-
-    </ChatConversation>
-</CascadingValue>
 
 @code {
     [CascadingParameter(Name = "GemanoInterfaceManager")]
     public GemanoInterfaceManager GemanoInterfaceManager { get; set; }
 
 
-
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        NavigationManager.NavigateTo("/Chat");
+    }
 }
