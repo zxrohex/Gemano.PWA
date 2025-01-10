@@ -35,7 +35,7 @@ namespace Gemano.PWA.Controls
 
         async Task NewChat()
         {
-            GemanoInterfaceManager.NavigationManager.NavigateTo($"/Chat");
+            GemanoInterfaceManager.NavigationManager.NavigateTo($"./Chat");
 
 
 
@@ -44,7 +44,7 @@ namespace Gemano.PWA.Controls
 
         async Task LoadChat(string id)
         {
-            GemanoInterfaceManager.NavigationManager.NavigateTo($"/Chat/View/{id}");
+            GemanoInterfaceManager.NavigationManager.NavigateTo($"./Chat/View/{id}");
 
             Toggle();
         }
