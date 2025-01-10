@@ -20,9 +20,6 @@
             </div>
 
             <div class="info-container right">
-                <button @onclick="CreateSession">
-                    Create Session
-                </button>
             </div>
         </div>
 
@@ -35,7 +32,7 @@
                         <div class="message-header">
                             <h6>@msg.Role</h6>
                         </div>
-                        
+
                         <div class="message-content">
                             <p>@msg.Content</p>
                         </div>
@@ -55,12 +52,47 @@
             </button>
         </div>
     </div>
-} else {
-    <div>
-        <h1>No session created</h1>
+}
+else
+{
+    <div class="chat-conversation no-chat">
+        <h1 class="notice-header">No session created</h1>
+
+        <p class="notice-text">
+            Click "Create Session" or "New Chat" to create a new Gemini Nano chat session.
+        </p>
 
         <button @onclick="CreateSession">
             Create Session
         </button>
+
+        <!--<button onclick="testShow">
+            Test
+        </button>-->
     </div>
 }
+
+<!--
+<MessageDialog ref="testDialog">
+    <HeaderText>Test</HeaderText>
+
+    <BodyText>
+
+
+        /*for (int i = 0;  i < 10; i++)
+        {
+            <p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem IpsumLorem Ipsum Lorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem Ipsum</p>
+        }*/
+    </BodyText>
+</MessageDialog>
+-->
+
+
+<!-- code {
+    private MessageDialog testDialog;
+
+    private void testShow()
+    {
+        testDialog.Show();
+    }
+}-->

@@ -45,6 +45,10 @@ div.chat-conversation {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    &.no-chat {
+        
+    }
 }
 
 div.session-info {

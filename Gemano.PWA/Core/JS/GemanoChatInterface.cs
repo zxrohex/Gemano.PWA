@@ -26,7 +26,7 @@ namespace Gemano.PWA.Core.JS
                         return 0;
 
                     case "after-download":
-                        return -1;
+                        return 1;
 
                     case "no":
                         return -2;
@@ -40,13 +40,15 @@ namespace Gemano.PWA.Core.JS
             return -9999;
         }
 
-        public async Task<bool> CreateSession()
+        public async Task<int> CreateSession()
         {
             if (JSModule != null)
             {
-                if (await GetStatus() != 0)
+                int status;
+
+                if ((status = await GetStatus()) != 0)
                 {
-                    return false;
+                    return status;
                 }
 
                 if (CurrentSession != null)
@@ -60,10 +62,10 @@ namespace Gemano.PWA.Core.JS
 
                 CurrentSession = await GemanoChatSession.Create(sessionObject);
 
-                return true;
+                return 0;
             }
 
-            return false;
+            return -1;
         }
 
     }

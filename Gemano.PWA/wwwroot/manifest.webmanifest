@@ -1,11 +1,12 @@
 {
-  "name": "Gemano.PWA",
-  "short_name": "Gemano.PWA",
+  "name": "Gemano",
+  "short_name": "Gemano",
   "id": "./",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#03173d",
+  "description": "Experimental app for local Gemini Nano on-device in Chrome Canary/Dev",
   "prefer_related_applications": false,
   "icons": [
     {

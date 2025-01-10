@@ -43,7 +43,6 @@ div.chat-conversation {
       -ms-flex-pack: center;
           justify-content: center;
 }
-
 div.session-info {
   position: absolute;
   top: 80px;
