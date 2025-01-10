@@ -1,9 +1,9 @@
 {
   "mainAssemblyName": "Gemano.PWA",
   "resources": {
-    "hash": "sha256-So1QB81IrCS2yLPWJSartudic1as7cNlg+j9bwR6ns0=",
+    "hash": "sha256-9SB+Nmq8BLVDYqJRSl6LukNCJ3FiYI/lRu7o3iRcdkM=",
     "fingerprinting": {
-      "Gemano.PWA.8us12f5xio.wasm": "Gemano.PWA.wasm",
+      "Gemano.PWA.934e3kypmo.wasm": "Gemano.PWA.wasm",
       "Microsoft.AspNetCore.Components.Forms.aunskvi510.wasm": "Microsoft.AspNetCore.Components.Forms.wasm",
       "Microsoft.AspNetCore.Components.8ajxd7kcw3.wasm": "Microsoft.AspNetCore.Components.wasm",
       "Microsoft.AspNetCore.Components.Web.lck4mkdrof.wasm": "Microsoft.AspNetCore.Components.Web.wasm",
@@ -74,7 +74,7 @@
       "System.Runtime.InteropServices.JavaScript.1agjk7th8x.wasm": "sha256-1wYUXPCvJuXChH7QAYFjIWwBKCIaQpC+jJmVyyt+ZCo="
     },
     "assembly": {
-      "Gemano.PWA.8us12f5xio.wasm": "sha256-wEm4ThgyFufzevGRTts9ov3HKPV2Bsh3vIhm0C/vt4Y=",
+      "Gemano.PWA.934e3kypmo.wasm": "sha256-y+Bpv9t3XDCN1sOCfN70l+TKQII+3zjbu6bC4kuGmoU=",
       "Microsoft.AspNetCore.Components.Forms.aunskvi510.wasm": "sha256-sjcW+X3s08JL75Y4XuFonqGRYFzCTYxaJ1y8rF4eAb0=",
       "Microsoft.AspNetCore.Components.8ajxd7kcw3.wasm": "sha256-4MiDmlrMhXd/TdH8aGxyUl7L3Dk6UnJRnQzVHNmfgCA=",
       "Microsoft.AspNetCore.Components.Web.lck4mkdrof.wasm": "sha256-+4nbWdPZpr3ZE5uD6PZ+KC6LlzfiSEol+8La6VDFpa4=",
