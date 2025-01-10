@@ -1,3 +1,17 @@
+/* /Controls/BaseDialog.razor.rz.scp.css */
+div.dialog-content[b-x4v6cn5dr2] {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 25px;
+  background-color: white;
+  color: black;
+  border-radius: 12px;
+  -webkit-filter: drop-shadow(0px 0px 32px rgba(0, 0, 0, 0.35));
+          filter: drop-shadow(0px 0px 32px rgba(0, 0, 0, 0.35));
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
 /* /Controls/ChatConversation.razor.rz.scp.css */
 p.stat-text[b-8tqvc15z4y] {
   position: relative;
@@ -44,7 +58,6 @@ div.chat-conversation[b-8tqvc15z4y] {
       -ms-flex-pack: center;
           justify-content: center;
 }
-
 div.session-info[b-8tqvc15z4y] {
   position: absolute;
   top: 80px;
@@ -187,4 +200,29 @@ div.conversation-controls[b-8tqvc15z4y] {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+/* /Controls/MessageDialog.razor.rz.scp.css */
+div.content-box[b-3zeys8s1z6] {
+  position: relative;
+  min-width: 350px;
+  min-height: 225px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+div.content-box *[b-3zeys8s1z6] {
+  margin-bottom: 25px;
+}
+div.content-box *:last-of-type[b-3zeys8s1z6] {
+  margin-bottom: 0px;
 }

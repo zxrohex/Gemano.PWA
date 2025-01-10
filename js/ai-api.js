@@ -48,7 +48,7 @@ export class GemanoSession {
     }
 
     static async getStatus() {
-        if (ai == "undefined") {
+        if (typeof ai == "undefined") {
             return "undefined";
         } else {
             return (await ai.languageModel.capabilities()).available;
