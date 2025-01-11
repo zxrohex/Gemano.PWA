@@ -10,7 +10,7 @@ I am trying to not rely on UI/UX libraries and frameworks at all - I want to cre
 
 Why do the entire UI/UX stuff alone from zero? To learn and improve my skills in UI/UX design and development, and because it's what I primarily did and want to do - and because it's fun.
 
-> [!NOTICE]
+> [!NOTE]
 > I am using SCSS instead of vanilla CSS with Prepros as a utility (and for compiling Sass/SCSS files).
 
 ## Before you start
@@ -20,7 +20,7 @@ This will **only** run on the latest Chrome Canary version (**please** use 134.0
 - `chrome://flags/#text-safety-classifier` set to `Disabled`
 (for now or else it will act like an "Family Friendly"" YouTube channel aka it refuses to respond to mostly everything, it's a known bug)
 
-**It will not work in the following scenarios: **
+**It will not work in the following scenarios:**
 - Inside Incognito and/or Guest mode
 - On an Enterprise-managed instance with `GenAILocalFoundationalModelSettings` set to "Do not download model".
 Check by going to `chrome://policy` and search for `GenAILocalFoundationalModelSettings`
@@ -77,7 +77,7 @@ Do the following steps to report an issue to the Chromium devs themselves:
 2. Go to chrome://gpu  
 3. Download the gpu report  
 4. Go to chrome://histograms/\#OptimizationGuide.ModelExecution.OnDeviceModelInstallCriteria.AtRegistration.DiskSpace  
-    * If you see records for 0, it means that your device doesn’t have enough storage space for the model. Ensure that you have at least 22 GB on the disk with your user profile, and retry the [setup steps](#heading=h.witohboigk0o). If you are still stuck, continue with the other steps below.  
+    * If you see records for 0, it means that your device doesnâ€™t have enough storage space for the model. Ensure that you have at least 22 GB on the disk with your user profile, and retry the [setup steps](#heading=h.witohboigk0o). If you are still stuck, continue with the other steps below.  
       ![image1](https://private-user-images.githubusercontent.com/108447422/402179406-bfac5d88-2724-4bf9-b3a0-b9bb0453e0ea.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzY1NTQxMDYsIm5iZiI6MTczNjU1MzgwNiwicGF0aCI6Ii8xMDg0NDc0MjIvNDAyMTc5NDA2LWJmYWM1ZDg4LTI3MjQtNGJmOS1iM2EwLWI5YmIwNDUzZTBlYS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwMTExJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDExMVQwMDAzMjZaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1hZDE2YzY1OGQ1Zjk2MGQwODIwOGRkYTBjMzg1MDdlNzY4NmYwN2ZmZTk0MDk0ODlmMzdiYzVjN2FmNjhkZjdkJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.dzF2QlQEmu2Kb6p667luYq112vcu-tzb1Ac2TNJ-g8c)
       On qualifying systems, the histogram should look similar to the following example:\
       `- Histogram: OptimizationGuide.ModelExecution.OnDeviceModelInstallCriteria.AtRegistration.DiskSpace recorded 1 samples, mean = 1.0 (flags = 0x41) [#]`
