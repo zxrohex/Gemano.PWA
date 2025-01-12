@@ -155,16 +155,20 @@ export class GemanoChatConversationManager {
 
         try {
             var conversations = JSON.parse(rawChats);       
+
+            return conversations.map(chat => {
+                return new GemanoChatConversation(chat.id, chat.name, chat.messages);
+            });
         } catch (e) {
             localStorage.setItem("chats", JSON.stringify([]));
 
             conversations = [];
+
+            return conversations;
         }
 
         
-        return conversations.map(chat => {
-            return new GemanoChatConversation(chat.id, chat.name, chat.messages);
-        });
+        
     }
 
     static getChat(id) {
