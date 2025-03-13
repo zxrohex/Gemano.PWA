@@ -6,12 +6,9 @@
 
 
 @code {
-    [CascadingParameter(Name = "GemanoInterfaceManager")]
-    public GemanoInterfaceManager GemanoInterfaceManager { get; set; }
-
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        NavigationManager.NavigateTo("./Chat");
+    
     }
 }

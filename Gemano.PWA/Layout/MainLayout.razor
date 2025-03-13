@@ -1,103 +1,67 @@
 ﻿@inherits LayoutComponentBase
 @inject IJSRuntime JSRuntime
-@inject GemanoInterfaceManager GemanoInterfaceManager
+@inject AIServicesManager AIServicesManager
 
-<CascadingValue Value="GemanoInterfaceManager" Name="GemanoInterfaceManager">
-    <div class="app-container">
-        @if (init)
-        {
-            <Sidebar @ref="sidebar">
+<div class="app-container">
+    @if (init)
+    {
+        <Sidebar @ref="sidebar">
 
-            </Sidebar>
+        </Sidebar>
 
-            <div class="app-header">
-                <div class="header-container left">
-                    <h1>Gemano</h1>
-                </div>
-
-                <div class="header-container center">
-                </div>
-
-                <div class="header-container right">
-
-                    <button @onclick="test">
-                        Menu
-                    </button>
-
-                </div>
+        <div class="app-header">
+            <div class="header-container left">
+                <h1>Gemano</h1>
             </div>
 
-            <div class="app-main">
-
-                @if (status == 0)
-                {
-                    @Body
-                }
-                else
-                {
-                    @switch (status)
-                    {
-                        default:
-                        case 10:
-                            <h1>Loading ...</h1>
-                            <p>Please wait</p>
-                            break;
-
-                        case 1:
-                            <h1>Available after download</h1>
-                            <p>See README</p>
-                            break;
-
-                        case -2:
-                            <h1>Supported but not available</h1>
-                            <p>See README</p>
-                            break;
-
-                        case -3:
-                            <h1>Unsupported or unavailable</h1>
-                            <p>See README</p>
-                            break;
-                    }
-                }
+            <div class="header-container center">
             </div>
-        }
-        else
-        {
-            <div class="app-main loading">
-                <div class="loading-bar">
-                    <div class="bar">
-                        <div class="bar-border top">
-                        </div>
 
-                        <div class="bar-border bottom">
-                        </div>
+            <div class="header-container right">
 
-                        <div class="bar-border left">
-                        </div>
+                <button @onclick="test">
+                    Menu
+                </button>
 
-                        <div class="bar-border right">
-                        </div>
+            </div>
+        </div>
+
+        <div class="app-main">
+            @Body
+        </div>
+    }
+    else
+    {
+        <div class="app-main loading">
+            <div class="loading-bar">
+                <div class="bar">
+                    <div class="bar-border top">
+                    </div>
+
+                    <div class="bar-border bottom">
+                    </div>
+
+                    <div class="bar-border left">
+                    </div>
+
+                    <div class="bar-border right">
                     </div>
                 </div>
             </div>
-        }
-    </div>
-</CascadingValue>
+        </div>
+    }
+</div>
 
 @code {
     bool init = false;
-
-    int status = 10;
 
     Sidebar sidebar;
 
     protected override async Task OnParametersSetAsync()
     {
-        init = await GemanoInterfaceManager.LoadAsync();
+        await AIServicesManager.InitializeAsync();
 
-        await Task.Delay(3500);
-
-        status = await GemanoInterfaceManager.ChatInterface.GetStatus();
+        init = true;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

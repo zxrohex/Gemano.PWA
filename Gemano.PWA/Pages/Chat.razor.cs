@@ -10,12 +10,7 @@ namespace Gemano.PWA.Pages
     {
         protected override async Task OnParametersSetAsync()
         {
-            await GemanoInterfaceManager.ChatInterface.GetAllChats();
-
-            GemanoInterfaceManager.ChatInterface.OnSessionChanged += () =>
-            {
-                StateHasChanged();
-            };
+          
         }
     }
 }

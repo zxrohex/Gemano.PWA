@@ -1,3 +1,4 @@
+
 using Gemano.PWA.Core.JS;
 
 using Microsoft.AspNetCore.Components.Web;
@@ -15,7 +16,7 @@ namespace Gemano.PWA
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-            builder.Services.AddSingleton<GemanoInterfaceManager>();
+            builder.Services.AddSingleton<AIServicesManager>();
 
             await builder.Build().RunAsync();
         }
