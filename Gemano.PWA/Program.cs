@@ -18,7 +18,13 @@ namespace Gemano.PWA
 
             builder.Services.AddSingleton<AIServicesManager>();
 
-            await builder.Build().RunAsync();
+            var host = builder.Build();
+
+            var svc = host.Services.GetRequiredService<AIServicesManager>();
+
+            await svc.InitializeAsync();
+
+            await host.RunAsync();
         }
     }
 }

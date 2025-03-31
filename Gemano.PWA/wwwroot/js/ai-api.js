@@ -61,7 +61,11 @@ export class AILLMManager {
             });
         } else if (availability == "available") {
             languageModel = await LanguageModel.create();
+        } else {
+            return null;
         }
+
+        return new AILanguageModelSession(languageModel);
     }
  
 }
