@@ -59,6 +59,12 @@
 
     protected override async Task OnParametersSetAsync()
     {
+        AIServicesManager.OnDownloadProgress += (l, t) =>
+        {
+            
+        };
+
+
         await AIServicesManager.InitializeAsync();
 
         init = true;

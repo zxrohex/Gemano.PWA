@@ -12,6 +12,9 @@ namespace Gemano.PWA.Core.JS
 
         DotNetObjectReference<AIServicesManager> dotNetObjectReference;
 
+        public delegate void DownloadProgress(long loaded, long total);
+        public event DownloadProgress OnDownloadProgress;
+
         public AIServicesManager(IJSRuntime jsRuntime)
         {
             this.jsRuntime = jsRuntime;
@@ -25,9 +28,15 @@ namespace Gemano.PWA.Core.JS
 
             aiServicesManager = await jsModule.InvokeAsync<IJSObjectReference>("AIServicesManager.init", dotNetObjectReference);
 
-            string test = await aiServicesManager.InvokeAsync<string>("LanguageModel.isAvailable");
+            string test = await aiServicesManager.InvokeAsync<string>("LLM.isAvailable");
 
             Console.WriteLine(test);
+        }
+
+        [JSInvokable]
+        public void OnDownloadProgressEvent(long loaded, long total)
+        {
+            OnDownloadProgress?.Invoke(loaded, total);
         }
 
         [JSInvokable]

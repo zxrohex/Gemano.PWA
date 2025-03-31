@@ -16,12 +16,12 @@ export class GemanoHelpers {
 
 export class AIServicesManager {
     #dotNetRef;
-    LanguageModel;
+    LLM;
 
     constructor(dotNetRef) {
         this.#dotNetRef = dotNetRef;
 
-        this.LanguageModel = new AILanguageModelManager(dotNetRef);
+        this.LLM = new AILLMManager(dotNetRef);
     }
 
     static init(dotNetRef) {
@@ -29,7 +29,7 @@ export class AIServicesManager {
     }
 }
 
-export class AILanguageModelManager {
+export class AILLMManager {
     #dotNetRef;
 
     constructor(dotNetRef) {
@@ -39,14 +39,37 @@ export class AILanguageModelManager {
     async isAvailable() {
         await this.#dotNetRef.invokeMethodAsync("test");
 
-        if (typeof ai == "undefined") {
+        if (typeof LanguageModel == "undefined") {
             return "unsupported";
         } else {
-            return await ai.languageModel.availability();
+            return await LanguageModel.availability();
         }
     }
+
+    async create() {
+        var languageModel;
+
+        var availability = await this.isAvailable();
+        
+        if (availability == "downloadable") {
+            languageModel = await LanguageModel.create({
+                monitor(m) {
+                    m.addEventListener("downloadprogress", (e) => {
+                        this.dotNetRef.invokeMethodAsync("OnDownloadProgressEvent", e.loaded, e.total);
+                    });
+                },
+            });
+        } else if (availability == "available") {
+            languageModel = await LanguageModel.create();
+        }
+    }
+ 
 }
 
 export class AILanguageModelSession {
-    
+    #aiSession;
+
+    constructor(aiSession) {
+        this.#aiSession = aiSession;
+    }
 }
