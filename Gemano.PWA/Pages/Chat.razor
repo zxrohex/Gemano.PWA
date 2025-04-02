@@ -1,10 +1,100 @@
 ﻿@page "/Chat"
+@inject LLMSessionManager LLMSessionManager
 @inject IJSRuntime JSRuntime
 
 <PageTitle>Chat</PageTitle>
 
+@if (isReady)
+{
+    <div class="chat-container">
+        <div class="chat-conversation">
+            <div class="session-info">
+                <div class="info-container left">
+                    <InputText class="text-input sleek" @bind-Value="conversation.Name">
+
+                    </InputText>
+                </div>
+
+                <div class="info-container center">
+                    <p class="stat-text">Tokens left: </p>
+
+                    <p class="stat-text">Tokens so far: </p>
+
+                    <p class="stat-text">Max Tokens: </p>
+
+                </div>
+
+                <div class="info-container right">
+                </div>
+            </div>
+
+            <ChatConversationHistory Messages="conversation.Messages">
+
+            </ChatConversationHistory>
+
+            <div class="conversation-controls">
+                <ChatInput OnSubmit="OnSubmitted">
+
+                </ChatInput>
+            </div>
+
+        </div>
+    </div>
+}
+else
+{
+    <div class="loading-bar">
+        <div class="bar">
+            <div class="bar-border top">
+            </div>
+
+            <div class="bar-border bottom">
+            </div>
+
+            <div class="bar-border left">
+            </div>
+
+            <div class="bar-border right">
+            </div>
+        </div>
+    </div>
+
+
+}
+
 
 @code {
+    bool isReady = false;
 
+    LLMConversation conversation = new LLMConversation("New Chat");
 
+    LLMSession session;
+
+    async Task OnSubmitted(string input)
+    {
+        conversation.Messages.Add(LLMMessage.FromUser(input));
+
+        var response = await session.Prompt(input);
+
+        conversation.Messages.Add(response);
+
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Console.WriteLine(LLMSessionManager.AvailabilityStatus);
+
+        if (LLMSessionManager.AvailabilityStatus == "downloadable")
+        {
+            LLMSessionManager.OnDownloadComplete += () => { isReady = true; StateHasChanged(); };
+
+            session = await LLMSessionManager.CreateSession();
+        }
+        else if (LLMSessionManager.AvailabilityStatus == "available")
+        {
+            session = await LLMSessionManager.CreateSession();
+
+            isReady = true;
+        }
+    }
 }

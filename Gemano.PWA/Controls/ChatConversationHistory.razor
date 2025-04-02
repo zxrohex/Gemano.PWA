@@ -1,0 +1,24 @@
+﻿<div class="conversation-history">
+
+    <div class="conversation-message-container">
+        @foreach (var msg in Messages)
+        {
+            <div class="conversation-message">
+                <div class="message-header">
+                    <h6>@msg.Role.ToUpper()</h6>
+                </div>
+
+                <div class="message-content">
+                    <p>@msg.Content</p>
+                </div>
+            </div>
+        }
+    </div>
+
+
+</div>
+
+@code {
+    [Parameter]
+    public List<LLMMessage> Messages { get; set; }
+}

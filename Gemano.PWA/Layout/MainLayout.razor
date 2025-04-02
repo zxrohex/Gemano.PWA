@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
 @inject IJSRuntime JSRuntime
-@inject AIServicesManager AIServicesManager
+
 
 <div class="app-container">
     @if (init)
@@ -18,11 +18,9 @@
             </div>
 
             <div class="header-container right">
-
                 <button @onclick="test">
                     Menu
                 </button>
-
             </div>
         </div>
 
@@ -59,24 +57,12 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        /*AIServicesManager.OnDownloadProgress += (l, t) =>
-        {
-            
-        };
-
-
-        await AIServicesManager.InitializeAsync();*/
-
         init = true;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-        {
-
-
-        }
+        
     }
 
     async Task test()

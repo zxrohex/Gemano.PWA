@@ -1,5 +1,5 @@
 
-using Gemano.PWA.Core.JS;
+using Gemano.PWA.Core.AI;
 
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -16,13 +16,13 @@ namespace Gemano.PWA
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-            builder.Services.AddSingleton<AIServicesManager>();
+            builder.Services.AddSingleton<LLMSessionManager>();
 
             var host = builder.Build();
 
-            var svc = host.Services.GetRequiredService<AIServicesManager>();
+            var llmSessionManager = host.Services.GetRequiredService<LLMSessionManager>();
 
-            await svc.InitializeAsync();
+            await llmSessionManager.Initialize();
 
             await host.RunAsync();
         }

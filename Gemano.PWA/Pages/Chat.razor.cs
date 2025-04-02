@@ -8,9 +8,6 @@ namespace Gemano.PWA.Pages
 {
     public partial class Chat : ComponentBase
     {
-        protected override async Task OnParametersSetAsync()
-        {
-          
-        }
+        
     }
 }

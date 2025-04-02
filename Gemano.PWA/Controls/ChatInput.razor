@@ -1,0 +1,21 @@
+﻿<InputText class="text-input prompt-input" @bind-Value="input">
+
+</InputText>
+
+<button @onclick="Submit">
+    Send
+</button>
+
+@code {
+    string input = "";
+
+    [Parameter]
+    public EventCallback<string> OnSubmit { get; set; }
+
+    async Task Submit()
+    {
+        await OnSubmit.InvokeAsync(input);
+
+        input = "";
+    }
+}
