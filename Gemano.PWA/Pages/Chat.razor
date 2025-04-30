@@ -1,5 +1,6 @@
 ﻿@page "/Chat"
 @inject IJSRuntime JSRuntime
+@inject LanguageModelService LanguageModelService
 
 <PageTitle>Chat</PageTitle>
 
@@ -17,13 +18,13 @@
             <div class="chat-header-content">
                 <div class="chat-quota-container">
                     <div class="chat-quota">
-                        <p>TOKENS of MAX TOKENS</p>
+                        <p>@usage of @quota</p>
                     </div>
 
                     <div class="chat-quota-progress-bar">
                         <div class="chat-quota-progress" id="chat-quota-progress">
                             <div class="chat-quota-progress-fill"
-                                 id="chat-quota-progress-fill"></div>
+                                 id="chat-quota-progress-fill" style="width: @(usage / quota * 100)%"></div>
                         </div>
                     </div>
                 </div>
@@ -66,7 +67,11 @@ else
 @code {
     bool isReady = true;
 
-    LanguageModelConversation conversation = new LanguageModelConversation("Gemano");
+    LanguageModelConversation conversation = new LanguageModelConversation("New Chat");
+
+    LanguageModelSession session;
+
+    int usage, quota = 1;
 
     async Task OnSubmitted(string input)
     {
@@ -74,17 +79,22 @@ else
 
         var targetMsg = conversation.AddAssistantMessage("");
 
-        await InvokeAsync(async () =>
-        {
-            await Task.Delay(2500).ContinueWith((t) =>
-            {
-                targetMsg.Content = "Test";
-            });
-        });
+        var response = await session.Prompt(input);
+
+        targetMsg.Content = response;
+
+        await RefreshStats();
+    }
+
+    async Task RefreshStats()
+    {
+        usage = await session.GetInputUsage();
+
+        quota = await session.GetInputQuota();
     }
 
     protected override async Task OnParametersSetAsync()
     {
-
+        session = await LanguageModelService.Create();
     }
 }
