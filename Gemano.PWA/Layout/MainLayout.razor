@@ -2,36 +2,23 @@
 @inject IJSRuntime JSRuntime
 
 
-<div class="app-container">
-    @if (init)
-    {
-        <Sidebar @ref="sidebar">
+<main>
+    <div class="app-main">
+        <div class="app-content">
+            @if (init)
+            {
+                <Sidebar @ref="sidebar">
+            
+                </Sidebar>
 
-        </Sidebar>
-
-        <div class="app-header">
-            <div class="header-container left">
-                <h1>Gemano</h1>
-            </div>
-
-            <div class="header-container center">
-            </div>
-
-            <div class="header-container right">
-                <button @onclick="test">
-                    Menu
-                </button>
-            </div>
-        </div>
-
-        <div class="app-main">
-            @Body
-        </div>
-    }
-    else
-    {
-        <div class="app-main loading">
-            <div class="loading-bar">
+                <div class="app-view">
+                    @Body
+                </div>
+            }
+            else
+            {
+                <div class="app-view loading">
+            <!--<div class="loading-bar">
                 <div class="bar">
                     <div class="bar-border top">
                     </div>
@@ -45,10 +32,12 @@
                     <div class="bar-border right">
                     </div>
                 </div>
-            </div>
+            </div>-->
+                </div>
+            }
         </div>
-    }
-</div>
+    </div>
+</main>
 
 @code {
     bool init = false;

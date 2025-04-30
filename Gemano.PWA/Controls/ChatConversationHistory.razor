@@ -1,24 +1,30 @@
-﻿<div class="conversation-history">
+﻿<div class="chat-messages">
 
-    <div class="conversation-message-container">
-        @foreach (var msg in Messages)
-        {
-            <div class="conversation-message">
-                <div class="message-header">
+
+    @foreach (var msg in Messages.Skip(1))
+    {
+        <div class="chat-message @(string.IsNullOrEmpty(msg.Content) ? "skeleton" : "")">
+            <div class="message-header">
+                <div class="message-header-content">
                     <h6>@msg.Role.ToUpper()</h6>
                 </div>
 
-                <div class="message-content">
-                    <p>@msg.Content</p>
+                <div class="message-header-content">
+                    <h6>...</h6>
                 </div>
             </div>
-        }
-    </div>
+
+            <div class="message-content">
+                <p>@(string.IsNullOrEmpty(msg.Content) ? "..." : msg.Content)</p>
+            </div>
+        </div>
+    }
+
 
 
 </div>
 
 @code {
     [Parameter]
-    public List<LLMMessage> Messages { get; set; }
+    public List<LanguageModelConversation.LanguageModelMessage> Messages { get; set; }
 }

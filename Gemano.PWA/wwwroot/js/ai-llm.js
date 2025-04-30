@@ -9,10 +9,6 @@
         return new LLMSessionManager(dotNetRef);
     }
 
-    async test() {
-        await this.dotNetRef.invokeMethodAsync("Test", 1);
-    }
-
     async isAvailable() {
         if (typeof LanguageModel == "undefined") {
             return "unavailable";
@@ -70,5 +66,13 @@ export class LLMSession {
 
     async prompt(msg) {
         return await this.#aiSession.prompt(msg);
+    }
+
+    getInputQuota() {
+        return this.#aiSession.inputQuota;
+    }
+
+    getInputUsage() {
+        return this.#aiSession.inputUsage;
     }
 }

@@ -1,43 +1,43 @@
 ﻿@page "/Chat"
-@inject LLMSessionManager LLMSessionManager
 @inject IJSRuntime JSRuntime
 
 <PageTitle>Chat</PageTitle>
 
 @if (isReady)
 {
-    <div class="chat-container">
-        <div class="chat-conversation">
-            <div class="session-info">
-                <div class="info-container left">
-                    <InputText class="text-input sleek" @bind-Value="conversation.Name">
+    <div class="chat-view">
 
-                    </InputText>
-                </div>
+        <div class="chat-header">
+            <div class="chat-header-content">
+                <InputText class="chat-name-field" @bind-Value="conversation.Name">
 
-                <div class="info-container center">
-                    <p class="stat-text">Tokens left: </p>
-
-                    <p class="stat-text">Tokens so far: </p>
-
-                    <p class="stat-text">Max Tokens: </p>
-
-                </div>
-
-                <div class="info-container right">
-                </div>
+                </InputText>
             </div>
 
-            <ChatConversationHistory Messages="conversation.Messages">
+            <div class="chat-header-content">
+                <div class="chat-quota-container">
+                    <div class="chat-quota">
+                        <p>TOKENS of MAX TOKENS</p>
+                    </div>
 
-            </ChatConversationHistory>
-
-            <div class="conversation-controls">
-                <ChatInput OnSubmit="OnSubmitted">
-
-                </ChatInput>
+                    <div class="chat-quota-progress-bar">
+                        <div class="chat-quota-progress" id="chat-quota-progress">
+                            <div class="chat-quota-progress-fill"
+                                 id="chat-quota-progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
 
+        <ChatConversationHistory Messages="conversation.Messages">
+
+        </ChatConversationHistory>
+
+        <div class="conversation-controls">
+            <ChatInput OnSubmit="OnSubmitted">
+
+            </ChatInput>
         </div>
     </div>
 }
@@ -64,37 +64,27 @@ else
 
 
 @code {
-    bool isReady = false;
+    bool isReady = true;
 
-    LLMConversation conversation = new LLMConversation("New Chat");
-
-    LLMSession session;
+    LanguageModelConversation conversation = new LanguageModelConversation("Gemano");
 
     async Task OnSubmitted(string input)
     {
-        conversation.Messages.Add(LLMMessage.FromUser(input));
+        conversation.AddUserMessage(input);
 
-        var response = await session.Prompt(input);
+        var targetMsg = conversation.AddAssistantMessage("");
 
-        conversation.Messages.Add(response);
-
+        await InvokeAsync(async () =>
+        {
+            await Task.Delay(2500).ContinueWith((t) =>
+            {
+                targetMsg.Content = "Test";
+            });
+        });
     }
 
     protected override async Task OnParametersSetAsync()
     {
-        Console.WriteLine(LLMSessionManager.AvailabilityStatus);
 
-        if (LLMSessionManager.AvailabilityStatus == "downloadable")
-        {
-            LLMSessionManager.OnDownloadComplete += () => { isReady = true; StateHasChanged(); };
-
-            session = await LLMSessionManager.CreateSession();
-        }
-        else if (LLMSessionManager.AvailabilityStatus == "available")
-        {
-            session = await LLMSessionManager.CreateSession();
-
-            isReady = true;
-        }
     }
 }

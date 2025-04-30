@@ -1,11 +1,15 @@
-﻿<InputText class="text-input prompt-input" @bind-Value="input">
+﻿<div class="chat-footer">
+    <div class="prompt-input-container">
+        <InputText class="prompt-text-input" @bind-Value="input">
 
-</InputText>
+        </InputText>
 
-<button @onclick="Submit">
-    Send
-</button>
+        <button class="prompt-input-send-btn" @onclick="Submit">
+            Send
+        </button>
 
+    </div>
+</div>
 @code {
     string input = "";
 
