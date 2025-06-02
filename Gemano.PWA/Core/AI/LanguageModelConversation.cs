@@ -1,7 +1,73 @@
 ﻿using Gemano.PWA.Common.Helpers.Extensions;
+using Gemano.PWA.Core.Storage;
 
 namespace Gemano.PWA.Core.AI
 {
+    public class LanguageModelConversationManager
+    {
+        private LocalStorageService localStorageService;
+
+        public List<LanguageModelConversation> Conversations { get; set; }
+
+        public delegate void ConversationUpdatedEventHandler();
+        public event ConversationUpdatedEventHandler ConversationUpdated;
+
+        public LanguageModelConversationManager(LocalStorageService localStorageService)
+        {
+            this.localStorageService = localStorageService;
+        }
+
+        public async Task Initialize()
+        {
+            Conversations = await localStorageService.GetItem<List<LanguageModelConversation>>("conversations");
+
+            if (Conversations == null)
+            {
+                Conversations = new List<LanguageModelConversation>();
+
+                await localStorageService.SetItem("conversations", Conversations);
+            }
+
+            ConversationUpdated?.Invoke();
+        }
+
+        public async Task<List<LanguageModelConversation>> GetConversations()
+        {
+            return await Task.FromResult(Conversations);
+        }
+
+        public async Task<bool> AddConversation(LanguageModelConversation conversation)
+        {
+            Conversations.Add(conversation);
+
+            await localStorageService.SetItem("conversations", Conversations);
+
+            ConversationUpdated?.Invoke();
+
+            return true;
+        }
+
+        public async Task<LanguageModelConversation> GetConversation(string id)
+        {
+            return Conversations.FirstOrDefault(c => c.Id == id);
+        }
+
+        public async Task UpdateConversation(LanguageModelConversation conversation)
+        {
+            var index = Conversations.FindIndex(c => c.Id == conversation.Id);
+
+            if (index != -1)
+            {
+                Conversations[index] = conversation;
+
+
+                await localStorageService.SetItem("conversations", Conversations);
+                
+                ConversationUpdated?.Invoke();
+            }
+        }
+    }
+
     public class LanguageModelConversation
     {
         public string Id { get; set; }
@@ -54,7 +120,7 @@ namespace Gemano.PWA.Core.AI
         }
 
 
-        public class LanguageModelMessage         
+        public class LanguageModelMessage
         {
             public string Role { get; set; }
             public string Content { get; set; }

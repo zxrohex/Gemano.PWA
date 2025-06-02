@@ -17,6 +17,15 @@ namespace Gemano.PWA.Core.AI
 
             return new LanguageModelSession(jsObject);
         }
+
+        public async Task<LanguageModelSession> Create(List<LanguageModelConversation.LanguageModelMessage> initialPrompts)
+        {
+            var jsObject = await jsRuntime.InvokeAsync<IJSObjectReference>("LanguageModel.create", new { 
+                initialPrompts = initialPrompts.Select(mp => new { role = mp.Role, content = mp.Content }).ToList()
+            });
+
+            return new LanguageModelSession(jsObject);
+        }
     }
 
     public class LanguageModelSession
@@ -35,12 +44,12 @@ namespace Gemano.PWA.Core.AI
 
         public async Task<int> GetInputQuota()
         {
-            return await jsObject.InvokeAsync<int>("getInputQuota");
+            return await jsObject.GetValueAsync<int>("inputQuota");
         }
 
         public async Task<int> GetInputUsage()
         {
-            return await jsObject.InvokeAsync<int>("getInputUsage");
+            return await jsObject.GetValueAsync<int>("inputUsage");
         }
 
         public async Task<int> MeasureInputUsage(string prompt)

@@ -1,6 +1,6 @@
 ﻿
 
-Object.extend = function (destination, source) {
+/*Object.extend = function (destination, source) {
     for (var property in source) {
         if (source.hasOwnProperty(property)) {
             destination[property] = source[property];
@@ -25,6 +25,5 @@ if (window.LanguageModel === undefined) {
             return this.inputUsage;
         }
     });
-}
-
+}*/
 

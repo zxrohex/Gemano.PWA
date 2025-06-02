@@ -13,10 +13,6 @@ namespace Gemano.PWA.Controls
     {
         public bool IsVisible = false;
 
-        protected override async Task OnParametersSetAsync()
-        {
-           
-        }
 
         public void Toggle()
         {

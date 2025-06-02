@@ -1,6 +1,10 @@
 ﻿@page "/Chat"
+@page "/Chat/{id}"
+@implements IAsyncDisposable
 @inject IJSRuntime JSRuntime
 @inject LanguageModelService LanguageModelService
+@inject LanguageModelConversationManager LanguageModelConversationManager
+@inject NavigationManager NavigationManager
 
 <PageTitle>Chat</PageTitle>
 
@@ -24,7 +28,7 @@
                     <div class="chat-quota-progress-bar">
                         <div class="chat-quota-progress" id="chat-quota-progress">
                             <div class="chat-quota-progress-fill"
-                                 id="chat-quota-progress-fill" style="width: @(usage / quota * 100)%"></div>
+                                 id="chat-quota-progress-fill" style="width: @Math.Round((double)usage / quota * 100, 0)% !important"></div>
                         </div>
                     </div>
                 </div>
@@ -44,7 +48,9 @@
 }
 else
 {
-    <div class="loading-bar">
+    <h1>Loading...</h1>
+
+    <!--<div class="loading-bar">
         <div class="bar">
             <div class="bar-border top">
             </div>
@@ -58,16 +64,19 @@ else
             <div class="bar-border right">
             </div>
         </div>
-    </div>
+    </div>-->
 
 
 }
 
 
 @code {
-    bool isReady = true;
+    [Parameter]
+    public string Id {get; set; }
 
-    LanguageModelConversation conversation = new LanguageModelConversation("New Chat");
+    bool isReady = false;
+
+    LanguageModelConversation conversation;
 
     LanguageModelSession session;
 
@@ -95,6 +104,51 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
-        session = await LanguageModelService.Create();
+        Console.WriteLine("--- Chat Init ---");
+
+        if (Id == null)
+        {
+            Console.WriteLine("ID is null, creating conv");
+
+            var conv = new LanguageModelConversation("New Chat");
+
+            Console.WriteLine("Adding conv to localStorage");
+
+            bool done = await LanguageModelConversationManager.AddConversation(conv);
+
+            Console.WriteLine("Creating LM session");
+
+            if (done)
+            {
+                Console.WriteLine("!! Navigating / redirect to URL with Id !!");
+
+                NavigationManager.NavigateTo($"/Chat/{conv.Id}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("ID is NOT null");
+
+            Console.WriteLine("Getting conversation");
+
+            conversation = await LanguageModelConversationManager.GetConversation(Id);
+
+            Console.WriteLine("Creating LM session");
+
+            session = await LanguageModelService.Create(conversation.Messages);
+
+            isReady = true;
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        Console.WriteLine("!! --- Disposing Chat page / view --- !!");
+
+        conversation = null;
+
+        await session.Destroy();
+
+        session = null;
     }
 }

@@ -19,27 +19,6 @@
   --theme-border-color: rgb(215, 215, 215);
   --theme-border-radius: 32px;
 }
-:root.debug * {
-  outline: 1px dashed red;
-}
-:root.debug *:hover {
-  outline: 1px dashed blue;
-}
-:root.debug *:hover::after {
-  content: attr(class);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
-  height: -webkit-max-content;
-  height: -moz-max-content;
-  height: max-content;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  font-size: 12px;
-}
 
 * {
   -webkit-box-sizing: border-box;
@@ -49,6 +28,16 @@
 
 h1, h2, h3, h4, h5, h6, p {
   margin: 0px;
+}
+
+button {
+  padding: 16px 32px;
+  background-color: rgb(25, 25, 25);
+  color: white;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  border-radius: 256px;
 }
 
 html, body, main {
@@ -91,6 +80,42 @@ div.app-main div.app-content div.app-bar {
   background-color: black;
   color: white;
   z-index: 10;
+}
+div.app-main div.app-content div.app-bar div.app-bar-content {
+  position: relative;
+  width: 100%;
+}
+div.app-main div.app-content div.app-bar div.app-bar-content.header, div.app-main div.app-content div.app-bar div.app-bar-content.footer {
+  height: 10%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+div.app-main div.app-content div.app-bar div.app-bar-content.header {
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+div.app-main div.app-content div.app-bar div.app-bar-content.header button.new-chat-btn {
+  font-size: 15px;
+  padding: 8px 16px;
+  background-color: white;
+  color: rgb(25, 25, 25);
+}
+div.app-main div.app-content div.app-bar div.app-bar-content.footer {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+div.app-main div.app-content div.app-bar div.app-bar-content.main-content {
+  height: 80%;
 }
 div.app-main div.app-content div.app-view {
   position: relative;
@@ -149,6 +174,21 @@ div.chat-view {
   position: relative;
   width: 100%;
   min-height: 100vh;
+}
+div.chat-view.loading {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 div.chat-view div.chat-header {
   position: sticky;
