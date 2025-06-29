@@ -4,6 +4,12 @@
 
         </InputText>
 
+        <InputFile OnChange="OnInputFileChange" >
+
+        </InputFile>
+
+      
+
         <button class="prompt-input-send-btn" @onclick="Submit">
             Send
         </button>
@@ -13,13 +19,24 @@
 @code {
     string input = "";
 
+    IBrowserFile file;
+
     [Parameter]
-    public EventCallback<string> OnSubmit { get; set; }
+    public EventCallback<Core.Models.ChatMessage> OnSubmit { get; set; }
+
+    async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        file = e.File;
+    }
 
     async Task Submit()
     {
-        await OnSubmit.InvokeAsync(input);
+        await OnSubmit.InvokeAsync(file != null ? Core.Models.ChatMessage.FromUser(input, await file.ReadAllAsBytes()) : Core.Models.ChatMessage.FromUser(input));
 
         input = "";
+
+        file = null;
     }
+
+   
 }

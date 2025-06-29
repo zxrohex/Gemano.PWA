@@ -1,0 +1,24 @@
+﻿<div class="chat-messages">
+
+
+    @foreach (var msg in Messages.Skip(1))
+    {
+        <ChatMessage Message="msg">
+
+        </ChatMessage>
+    }
+
+
+
+</div>
+
+@code {
+    [Parameter]
+    public List<Core.Models.ChatMessage> Messages { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent
+    {
+        get; set;
+    }
+}

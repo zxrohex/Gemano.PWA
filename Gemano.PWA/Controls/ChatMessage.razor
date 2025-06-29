@@ -1,0 +1,34 @@
+﻿<div class="chat-message @(string.IsNullOrEmpty(this.Message.Content) ? "skeleton" : "")">
+    <div class="message-header">
+        <div class="message-header-content">
+            <h6>@this.Message.Role.ToUpper()</h6>
+        </div>
+
+        <div class="message-header-content">
+            <h6>...</h6>
+        </div>
+    </div>
+
+    <div class="message-content">
+        @foreach (var part in this.Message.Contents)
+        {
+            @if (part is TextChatMessageContent text)
+            {
+                <p>@(string.IsNullOrEmpty(text.TextContent) ? "..." : text.TextContent)</p>
+            }
+            else if (part is ImageChatMessageContent image)
+            {
+                <div class="image-attachment">
+                    <img src="@image.AsBase64Src()" alt="Image content" />
+                </div>
+            }
+        }
+
+        
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Core.Models.ChatMessage Message { get; set; }
+}

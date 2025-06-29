@@ -1,20 +1,13 @@
 ﻿@page "/Chat"
-@page "/Chat/{id}"
-@implements IAsyncDisposable
 @inject IJSRuntime JSRuntime
-@inject LanguageModelService LanguageModelService
-@inject LanguageModelConversationManager LanguageModelConversationManager
-@inject NavigationManager NavigationManager
 
 <PageTitle>Chat</PageTitle>
 
-@if (isReady)
-{
     <div class="chat-view">
 
         <div class="chat-header">
             <div class="chat-header-content">
-                <InputText class="chat-name-field" @bind-Value="conversation.Name">
+                <InputText class="chat-name-field" @bind-Value="name">
 
                 </InputText>
             </div>
@@ -35,9 +28,9 @@
             </div>
         </div>
 
-        <ChatConversationHistory Messages="conversation.Messages">
+        <ChatConversation Messages="messages">
 
-        </ChatConversationHistory>
+        </ChatConversation>
 
         <div class="conversation-controls">
             <ChatInput OnSubmit="OnSubmitted">
@@ -45,110 +38,72 @@
             </ChatInput>
         </div>
     </div>
-}
-else
-{
-    <h1>Loading...</h1>
 
-    <!--<div class="loading-bar">
-        <div class="bar">
-            <div class="bar-border top">
-            </div>
-
-            <div class="bar-border bottom">
-            </div>
-
-            <div class="bar-border left">
-            </div>
-
-            <div class="bar-border right">
-            </div>
-        </div>
-    </div>-->
+     <!--
+         -->
 
 
-}
 
 
 @code {
-    [Parameter]
-    public string Id {get; set; }
+    IJSObjectReference llmSession;
 
-    bool isReady = false;
-
-    LanguageModelConversation conversation;
-
-    LanguageModelSession session;
-
-    int usage, quota = 1;
-
-    async Task OnSubmitted(string input)
+    List<Core.Models.ChatMessage> messages = new List<Core.Models.ChatMessage>() 
     {
-        conversation.AddUserMessage(input);
+        Core.Models.ChatMessage.FromSystem("Test")
+    };
 
-        var targetMsg = conversation.AddAssistantMessage("");
+    string name = "Test Chat";
 
-        var response = await session.Prompt(input);
+    double quota = -1;
 
-        targetMsg.Content = response;
+    double usage = -1;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await InitializeLLMSession();
+    }
+
+    async Task InitializeLLMSession()
+    {
+        llmSession = await JSRuntime.InvokeAsync<IJSObjectReference>("window.LanguageModel.create", new { expectedInputs = new[] { new { type = "text" }, new { type = "image" }, new { type = "audio" } } });
 
         await RefreshStats();
     }
 
     async Task RefreshStats()
     {
-        usage = await session.GetInputUsage();
-
-        quota = await session.GetInputQuota();
-    }
-
-    protected override async Task OnParametersSetAsync()
-    {
-        Console.WriteLine("--- Chat Init ---");
-
-        if (Id == null)
+        if (llmSession is not null)
         {
-            Console.WriteLine("ID is null, creating conv");
-
-            var conv = new LanguageModelConversation("New Chat");
-
-            Console.WriteLine("Adding conv to localStorage");
-
-            bool done = await LanguageModelConversationManager.AddConversation(conv);
-
-            Console.WriteLine("Creating LM session");
-
-            if (done)
-            {
-                Console.WriteLine("!! Navigating / redirect to URL with Id !!");
-
-                NavigationManager.NavigateTo($"/Chat/{conv.Id}");
-            }
-        }
-        else
-        {
-            Console.WriteLine("ID is NOT null");
-
-            Console.WriteLine("Getting conversation");
-
-            conversation = await LanguageModelConversationManager.GetConversation(Id);
-
-            Console.WriteLine("Creating LM session");
-
-            session = await LanguageModelService.Create(conversation.Messages);
-
-            isReady = true;
+            quota = await llmSession.GetValueAsync<double>("inputQuota");
+            usage = await llmSession.GetValueAsync<double>("inputUsage");
         }
     }
 
-    public async ValueTask DisposeAsync()
+    async Task<Core.Models.ChatMessage> Prompt(Core.Models.ChatMessage chatMessage)
     {
-        Console.WriteLine("!! --- Disposing Chat page / view --- !!");
+        if (llmSession is not null)
+        {
+            var args = new[] { new { role = chatMessage.Role, content = chatMessage.Contents.Select(i => new { type = i.Type, value = i.Content }) } };
 
-        conversation = null;
+            Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(args));
 
-        await session.Destroy();
+            var response = await llmSession.InvokeAsync<string>("prompt", args);
 
-        session = null;
+            return Core.Models.ChatMessage.FromAssistant(response);
+        }
+
+        return null;
+    }
+
+    async Task OnSubmitted(Core.Models.ChatMessage message)
+    {
+        messages.Add(message);
+        
+
+        var response = await Prompt(message); // Added this line to call the Prompt method
+          
+
+        messages.Add(response);
     }
 }

@@ -11,14 +11,6 @@ namespace Gemano.PWA.Controls
 {
     public partial class Sidebar : ComponentBase
     {
-        public bool IsVisible = false;
 
-
-        public void Toggle()
-        {
-            IsVisible = !IsVisible;
-
-            StateHasChanged();
-        }
     }
 }

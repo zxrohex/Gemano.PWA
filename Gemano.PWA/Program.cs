@@ -1,6 +1,4 @@
 
-using Gemano.PWA.Core.AI;
-using Gemano.PWA.Core.Storage;
 
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -17,14 +15,11 @@ namespace Gemano.PWA
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             
-            builder.Services.AddSingleton<LocalStorageService>();
-            builder.Services.AddSingleton<LanguageModelConversationManager>();
-            builder.Services.AddScoped<LanguageModelService>();
+      
 
             var host = builder.Build();
 
-            await host.Services.GetRequiredService<LanguageModelConversationManager>().Initialize();
-
+ 
             await host.RunAsync();
         }
     }

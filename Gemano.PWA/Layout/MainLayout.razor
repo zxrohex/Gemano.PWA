@@ -5,9 +5,9 @@
 <main>
     <div class="app-main">
         <div class="app-content">
-            @if (init)
+            @if (true)
             {
-                <Sidebar @ref="sidebar">
+                <Sidebar>
             
                 </Sidebar>
 
@@ -40,22 +40,5 @@
 </main>
 
 @code {
-    bool init = false;
 
-    Sidebar sidebar;
-
-    protected override async Task OnParametersSetAsync()
-    {
-        init = true;
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        
-    }
-
-    async Task test()
-    {
-        sidebar.Toggle();
-    }
 }

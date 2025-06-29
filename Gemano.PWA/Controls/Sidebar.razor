@@ -1,22 +1,14 @@
-﻿@inject LocalStorageService LocalStorageService
-@inject LanguageModelConversationManager LanguageModelConversationManager
-@inject NavigationManager NavigationManager
+﻿@inject NavigationManager NavigationManager
 
 <div class="app-bar">
     <div class="app-bar-content header">
         <h2>Gemano</h2>
 
-        <button class="new-chat-btn" @onclick="async () => await NavigateToChat()">+ New Chat</button>
+        <button class="new-chat-btn">+ New Chat</button>
     </div>
 
     <div class="app-bar-content main-content">
 
-        @foreach (var conversation in LanguageModelConversationManager.Conversations)
-        {
-            <button @onclick="async () => await NavigateToChat(conversation.Id)">
-                <h3>@LanguageModelConversationManager.Conversations.IndexOf(conversation)</h3>
-            </button>
-        }
 
     </div>
 
@@ -26,15 +18,5 @@
 </div>
 
 @code {
-    async Task NavigateToChat(string id = "")
-    {
-        NavigationManager.NavigateTo(string.IsNullOrEmpty(id) ? "/Chat" : $"/Chat/{id}");
-    }
 
-    protected override async Task OnInitializedAsync()
-    {
-        LanguageModelConversationManager.ConversationUpdated += () => { StateHasChanged(); };
-
-        await LanguageModelConversationManager.GetConversations();
-    }
 }

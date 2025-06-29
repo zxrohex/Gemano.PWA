@@ -4,11 +4,69 @@
 
 <PageTitle>Home</PageTitle>
 
+@if (loading)
+{
+    <h1>Loading...</h1>
+
+    @if (!string.IsNullOrEmpty(statusText))
+    {
+        <p>@statusText</p>
+    }
+
+    <div class="loading-bar">
+        <div class="bar">
+            <div class="bar-border top">
+            </div>
+
+            <div class="bar-border bottom">
+            </div>
+
+            <div class="bar-border left">
+            </div>
+
+            <div class="bar-border right">
+            </div>
+        </div>
+    </div>
+}
+
 
 @code {
+    string availability = "";
+
+    string statusText = "";
+
+    bool loading = true;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        NavigationManager.NavigateTo("/Chat");
+        if (firstRender)
+        {
+            await CheckAvailability();
+        }
     }
+
+    async Task CheckAvailability()
+    {
+        availability = await JSRuntime.InvokeAsync<string>("window.gemanoJs.llm.checkAvailability");
+
+        switch (availability)
+        {
+            case "unsupported":
+                NavigationManager.NavigateTo("/Error/10");
+                break;
+
+            case "unavailable":
+                NavigationManager.NavigateTo("/Error/11");
+                break;
+
+            case "downloadable":
+            case "downloading":
+            case "available":
+            default:
+                NavigationManager.NavigateTo("/Chat");
+                break;
+        }
+    }
+
 }
